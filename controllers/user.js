@@ -86,17 +86,6 @@ module.exports = {
     }
   },
 
-  // getAll: async (req, res) => {
-  //   try {
-  //     const gettAlluser = await User.find().select("_id username email role");
-  //     res.status(200).json({
-  //       status: "success",
-  //       message: "Successfully Get All User",
-  //       data: gettAlluser,
-  //     });
-  //   } catch (error) {}
-  // },
-
   getAll: async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
