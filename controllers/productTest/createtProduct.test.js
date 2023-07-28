@@ -5,11 +5,11 @@ const Validator = require("fastest-validator");
 
 const v = new Validator();
 
-jest.mock("../models/Product", () => ({
+jest.mock("../../models/Product", () => ({
   create: jest.fn(),
 }));
 
-jest.mock("../models/VideoThumbnail", () => ({
+jest.mock("../../models/VideoThumbnail", () => ({
   findById: jest.fn(),
 }));
 

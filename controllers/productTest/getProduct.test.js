@@ -2,12 +2,12 @@ const { getProduct } = require("../product");
 const Product = require("../../models/Product");
 const VideoThumbnail = require("../../models/VideoThumbnail");
 
-jest.mock("../models/Product", () => ({
+jest.mock("../../models/Product.js", () => ({
   countDocuments: jest.fn(),
   find: jest.fn(),
 }));
 
-jest.mock("../models/VideoThumbnail", () => ({}));
+jest.mock("../../models/VideoThumbnail", () => ({}));
 
 describe("getProduct controller", () => {
   it("should retrieve products with pagination", async () => {
