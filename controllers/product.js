@@ -149,7 +149,7 @@ module.exports = {
         return res.status(404).json({ error: "Products not found." });
       }
 
-      res.status(201).json({
+      res.status(200).json({
         status: "success",
         message: "Successfully delete data video product",
         data: deletedProduct,
