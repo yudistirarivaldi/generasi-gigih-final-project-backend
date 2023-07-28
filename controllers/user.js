@@ -86,14 +86,45 @@ module.exports = {
     }
   },
 
+  // getAll: async (req, res) => {
+  //   try {
+  //     const gettAlluser = await User.find().select("_id username email role");
+  //     res.status(200).json({
+  //       status: "success",
+  //       message: "Successfully Get All User",
+  //       data: gettAlluser,
+  //     });
+  //   } catch (error) {}
+  // },
+
   getAll: async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
     try {
-      const gettAlluser = await User.find().select("_id username email role");
+      const totalUser = await User.countDocuments();
+
+      const totalPages = Math.ceil(totalUser / limit);
+
+      const currentPages = Math.min(Math.max(1, page), totalPages);
+
+      const skip = (currentPages - 1) * limit;
+
+      const gettAlluser = await User.find()
+        .select("_id username email role")
+        .skip(skip)
+        .limit(limit);
+
       res.status(200).json({
         status: "success",
-        message: "Successfully Get All User",
+        message: "Successfully get data user",
         data: gettAlluser,
+        currentPages,
+        totalPages,
+        totalUser,
       });
-    } catch (error) {}
+    } catch (error) {
+      res.status(500).json({ error: "Error retrieving product data." });
+    }
   },
 };
