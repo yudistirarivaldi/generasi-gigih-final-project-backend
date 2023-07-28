@@ -24,6 +24,11 @@
 
 ### `https://documenter.getpostman.com/view/17375603/2s9XxsUvj5`
 
+6. List API request and response
+
+### `https://gist.github.com/yudistirarivaldi/5a4beea432cfe548d5fa7a94de2b5dc8`
+
+
 ## Database Models
 
 ### Model Comment
