@@ -28,7 +28,6 @@
 
 ### `https://gist.github.com/yudistirarivaldi/5a4beea432cfe548d5fa7a94de2b5dc8`
 
-
 ## Database Models
 
 ### Model Comment
@@ -72,31 +71,6 @@ This model represents users who can make comments and is associated with user ac
 - **timestamps:** `An additional field that automatically adds the creation time (createdAt) and the update time (updatedAt) whenever a new comment is created or modified.`
 - **unique:** `Indicates that each entry in the "Comment" collection must have a unique value for each field.`
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## API Structure Overview
 
 - **Models:** `The API has four models defined using Mongoose: Comment, Product, User, and VideoThumbnail. These models represent the data structure of each entity and define their fields and data types.`
@@ -118,7 +92,6 @@ This model represents users who can make comments and is associated with user ac
 - **API Endpoints and Operations:** `The API has several routes defined for different resources. Each route corresponds to an endpoint and specifies the HTTP methods allowed for that endpoint.`
 ```
 /Comment API:
-
 POST /comment: Creates a new comment associated with a specific video thumbnail.
 
 Product API:
