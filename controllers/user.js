@@ -1,30 +1,28 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const { signToken } = require("../helpers/jwt");
-const Validator = require("fastest-validator");
-
-const v = new Validator();
+const validator = require("validator");
 
 module.exports = {
   register: async (req, res) => {
     try {
       const { username, email, password } = req.body;
 
-      const schema = {
-        username: "string|empty:false",
-        email: "string|empty:false",
-        password: "string|empty:false",
-      };
+      const user = await User.findOne({ email: email });
 
-      const validate = v.validate(req.body, schema);
-      if (validate.length) {
-        return res.status(400).json({
-          status: "error",
-          message: validate,
-        });
+      if (user) {
+        return res.status(400).json("User already exist");
       }
 
-      var hashPassword = bcrypt.hashSync(password, 8);
+      if (!username || !email || !password) {
+        return res.status(400).json("All field required");
+      }
+
+      if (!validator.isEmail(email)) {
+        return res.status(400).json("Email must be a valid email");
+      }
+
+      let hashPassword = bcrypt.hashSync(password, 8);
 
       const createUser = await User.create({
         username,
