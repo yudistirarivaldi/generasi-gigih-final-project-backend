@@ -10,6 +10,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, "Required"],
     },
+    linkImage: {
+      type: String,
+      required: [true, "Required"],
+    },
     title: {
       type: String,
       required: [true, "Required"],

@@ -7,7 +7,7 @@ router.use(authentication);
 
 router.get("/", productController.getProduct);
 router.get("/:id", productController.getByIDProduct);
-router.use(authorization(["admin"]));
+// router.use(authorization(["admin"]));
 
 router.post("/", productController.createProduct);
 router.put("/:id", productController.updateProduct);

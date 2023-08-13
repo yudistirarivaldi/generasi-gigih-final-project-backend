@@ -20,7 +20,7 @@ module.exports = {
       const skip = (currentPages - 1) * limit;
 
       const videos = await VideoThumbnail.find()
-        .select("_id videoUrl")
+        .select("_id videoUrl thumbnail")
         .skip(skip)
         .limit(limit);
 
@@ -47,14 +47,14 @@ module.exports = {
       }
 
       const products = await Product.find({ VideoThumbnail: id }).select(
-        "_id linkProduct title price VideoThumbnail"
+        "_id linkProduct title price VideoThumbnail linkImage"
       );
       if (!products) {
         return res.status(404).json({ error: "Products not found." });
       }
 
       const comments = await Comment.find({ VideoThumbnail: id }).select(
-        "_id comment VideoThumbnail"
+        "_id comment username VideoThumbnail createdAt "
       );
       if (!comments) {
         return res.status(404).json({ error: "Comment not found." });
@@ -93,7 +93,7 @@ module.exports = {
 
       const newVideo = await VideoThumbnail.create({
         videoUrl,
-        thumbnail
+        thumbnail,
       });
 
       res.status(201).json({
@@ -102,7 +102,7 @@ module.exports = {
         data: newVideo,
       });
     } catch (error) {
-       res.status(500).json({ error: "Error retrieving video data." });
+      res.status(500).json({ error: "Error retrieving video data." });
     }
   },
 

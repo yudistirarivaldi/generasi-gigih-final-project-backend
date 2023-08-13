@@ -7,21 +7,10 @@ const v = new Validator();
 module.exports = {
   createProduct: async (req, res) => {
     try {
-      const { linkProduct, title, price, videoId } = req.body;
+      const { linkProduct, linkImage, title, price, videoId } = req.body;
 
-      const schema = {
-        linkProduct: "string|empty:false",
-        title: "string|empty:false",
-        price: "number|empty:false",
-        videoId: "string|empty:false",
-      };
-
-      const validate = v.validate(req.body, schema);
-      if (validate.length) {
-        return res.status(400).json({
-          status: "error",
-          message: validate,
-        });
+      if ((!linkProduct || !linkProduct || !title || !price, !videoId)) {
+        return res.status(400).json("All field required");
       }
 
       const video = await VideoThumbnail.findById(videoId);
@@ -31,6 +20,7 @@ module.exports = {
 
       const newProduct = await Product.create({
         linkProduct,
+        linkImage,
         title,
         price,
         VideoThumbnail: video._id,
@@ -61,7 +51,7 @@ module.exports = {
 
       const product = await Product.find()
 
-        .select("_id linkProduct title price")
+        .select("_id linkProduct linkImage title price")
         .populate("VideoThumbnail", "_id videoUrl")
         .skip(skip)
         .limit(limit);

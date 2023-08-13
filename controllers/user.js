@@ -14,6 +14,8 @@ module.exports = {
         return res.status(400).json("User already exist");
       }
 
+  
+
       if (!username || !email || !password) {
         return res.status(400).json("All field required");
       }
@@ -30,10 +32,19 @@ module.exports = {
         password: hashPassword,
       });
 
+
+      const token = signToken({
+        id: createUser._id,
+        role: createUser.role,
+        username: createUser.username,
+        email: createUser.email,
+      });
+
       res.status(201).json({
         status: "success",
         message: "Successfully register",
         data: createUser,
+        accessToken: token,
       });
     } catch (error) {
       res.status(500).json({ error: "Error retrieving register." });
@@ -44,27 +55,22 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
-      const schema = {
-        email: "string|empty:false",
-        password: "string|empty:false",
-      };
-
-      const validate = v.validate(req.body, schema);
-      if (validate.length) {
-        return res.status(400).json({
-          status: "error",
-          message: validate,
-        });
+      if (!email || !password) {
+        return res.status(400).json("All field required");
       }
 
       const user = await User.findOne({ email: email });
       if (!user) {
-        return res.status(404).json({ error: "email not found" });
+        return res.status(404).json("user not found");
+      }
+
+      if (!validator.isEmail(email)) {
+        return res.status(400).json("Email must be a valid email");
       }
 
       const comparePassword = bcrypt.compareSync(password, user.password);
       if (!comparePassword) {
-        return res.status(400).json({ error: "wrong password" });
+        return res.status(400).json("wrong password");
       }
 
       const token = signToken({
@@ -77,10 +83,12 @@ module.exports = {
       res.status(200).json({
         status: "success",
         message: "Successfully login",
+        username: user.username,
         accessToken: token,
       });
     } catch (error) {
       res.status(500).json({ error: "Error retrieving login." });
+      console.log(error);
     }
   },
 
